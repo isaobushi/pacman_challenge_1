@@ -51,9 +51,9 @@ const getInput = (input, state) => {
 		case 'REPORT':
 			return report(state);
 		case 'LEFT':
-			return 'function left';
+			return left(status);
 		case 'RIGHT':
-			return 'function right';
+			return right(status);
 		default:
 			return 'message error';
 	}
@@ -80,4 +80,34 @@ const move = state => {
 	}
 };
 
-module.exports = functions = { matchPlace, move, report };
+// rotate pacman facing rotation 90 deg left
+const left = state => {
+	assoc = {
+		NORTH: 'WEST',
+		EAST: 'NORTH',
+		SOUTH: 'EAST',
+		WEST: 'SOUTH',
+	};
+
+	if (Object.keys(assoc).indexOf(state[FACING]) > -1) {
+		state[FACING] = assoc[state[FACING]];
+	}
+	return state;
+};
+
+// rotate pacman facing rotation 90 deg right
+const right = state => {
+	assoc = {
+		NORTH: 'EAST',
+		EAST: 'SOUTH',
+		SOUTH: 'WEST',
+		WEST: 'NORTH',
+	};
+
+	if (Object.keys(assoc).indexOf(state[FACING]) > -1) {
+		state[FACING] = assoc[state[FACING]];
+	}
+	return state;
+};
+
+module.exports = functions = { matchPlace, move, report, left, right };

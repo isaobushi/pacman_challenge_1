@@ -39,3 +39,19 @@ test('expect to log state', () => {
 	let state = [2, 2, 'NORTH'];
 	expect(functions.report(state)).toEqual(expect.stringContaining('(2,2) facing NORTH \n'));
 });
+
+test('expect to change NORTH in WEST and keep same x y', () => {
+	const X = 0;
+	const Y = 1;
+	const FACING = 2;
+	let state = [2, 2, 'NORTH'];
+	expect(functions.left(state)).toEqual([2, 2, 'WEST']);
+});
+
+test('expect to change NORTH in EAST and keep same x y', () => {
+	const X = 0;
+	const Y = 1;
+	const FACING = 2;
+	let state = [2, 2, 'NORTH'];
+	expect(functions.right(state)).toEqual([2, 2, 'EAST']);
+});
