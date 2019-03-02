@@ -31,4 +31,28 @@ const matchPlace = input => {
 	return null;
 };
 
-module.exports = { matchPlace: matchPlace };
+const getInput = (input, state) => {
+	const matched = matchPlace(input);
+	if (matched) {
+		return matched;
+	}
+
+	if (state === null) {
+		return 'message error';
+	}
+
+	switch (input) {
+		case 'MOVE':
+			return 'function move';
+		case 'REPORT':
+			return 'function report';
+		case 'LEFT':
+			return 'function left';
+		case 'RIGHT':
+			return 'function right';
+		default:
+			return 'message error';
+	}
+};
+
+module.exports = { matchPlace: matchPlace, mainLoop: mainLoop, getInput: getInput };
