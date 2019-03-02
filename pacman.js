@@ -3,26 +3,35 @@ const rl = require('readline').createInterface({
 	output: process.stdout,
 });
 
+//----------------output binding-------------------//
+
+const messageStart = `\n----To start place Pacman on the board with command PLACE X,Y,F: X and Y have values between 0 and 5, F can be NORTH EAST SOUTH WEST -----  \n`;
+
+const messageInstruction = `\n---Enter: \n MOVE to make pacman advance \n LEFT and RIGHT to make him rotate \n REPORT to know where he is \n EXIT to leave \n\n----------------\n`;
+
+const messageValuesError = '\nwrong values entered, try again or enter EXIT to leave\n';
+//----------------------------------------------------------------
 const X = 0;
 const Y = 1;
 const FACING = 2;
+//----------------------------------------------------------------
 
 let state = null;
 const mainLoop = input => {
 	let newState = getInput(input, state);
 	let msg;
 	if (newState === null) {
-		msg = 'welcome';
+		msg = messageStart;
 	} else if (typeof newState === 'string') {
 		msg = newState;
 	} else {
-		msg = 'instruction';
+		msg = messageInstruction;
 		state = newState;
 	}
 	rl.question(msg, mainLoop);
 };
 
-rl.question('welcome', mainLoop);
+rl.question(messageStart, mainLoop);
 
 const matchPlace = input => {
 	let regex = /PLACE ([0-9]),([0-9]),(NORTH|EAST|SOUTH|WEST)/i;
@@ -40,22 +49,20 @@ const getInput = (input, state) => {
 	if (matched) {
 		return matched;
 	}
-
 	if (state === null) {
-		return 'message error';
+		return messageValuesError;
 	}
-
 	switch (input) {
 		case 'MOVE':
 			return move(state);
 		case 'REPORT':
 			return report(state);
 		case 'LEFT':
-			return left(status);
+			return left(state);
 		case 'RIGHT':
-			return right(status);
+			return right(state);
 		default:
-			return 'message error';
+			return messageValuesError;
 	}
 };
 
@@ -67,17 +74,22 @@ const report = state => {
 const move = state => {
 	switch (state[FACING]) {
 		case 'NORTH':
-			return state[Y] < 5 ? state[Y]++ : state[Y];
+			state[Y] < 5 ? state[Y]++ : state[Y];
+			break;
 		case 'SOUTH':
-			return state[Y] < 5 ? state[Y]-- : state[Y];
+			state[Y] < 5 ? state[Y]-- : state[Y];
+			break;
 		case 'EAST':
 			state[X] < 5 ? state[X]++ : state[X];
-			return state[X];
+			break;
 		case 'WEST':
-			return state[X] < 5 ? state[X]-- : state[X];
+			state[X] < 5 ? state[X]-- : state[X];
+			break;
 		default:
-			return 'message error';
+			messageValuesError;
+			break;
 	}
+	return state;
 };
 
 // rotate pacman facing rotation 90 deg left
