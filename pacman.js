@@ -35,34 +35,38 @@ const matchPlace = input => {
 	return null;
 };
 
-// const getInput = (input, state) => {
-// 	const matched = matchPlace(input);
-// 	if (matched) {
-// 		return matched;
-// 	}
+const getInput = (input, state) => {
+	const matched = matchPlace(input);
+	if (matched) {
+		return matched;
+	}
 
-// 	if (state === null) {
-// 		return 'message error';
-// 	}
+	if (state === null) {
+		return 'message error';
+	}
 
-// 	switch (input) {
-// 		case 'MOVE':
-// 			return move(state);
-// 		case 'REPORT':
-// 			return 'function report';
-// 		case 'LEFT':
-// 			return 'function left';
-// 		case 'RIGHT':
-// 			return 'function right';
-// 		default:
-// 			return 'message error';
-// 	}
-// };
+	switch (input) {
+		case 'MOVE':
+			return move(state);
+		case 'REPORT':
+			return report(state);
+		case 'LEFT':
+			return 'function left';
+		case 'RIGHT':
+			return 'function right';
+		default:
+			return 'message error';
+	}
+};
+
+//output actual pacman postition
+const report = state => {
+	return `(${state[X]},${state[Y]}) facing ${state[FACING]} \n`;
+};
 
 const move = state => {
 	switch (state[FACING]) {
 		case 'NORTH':
-			console.log('in south');
 			return state[Y] < 5 ? state[Y]++ : state[Y];
 		case 'SOUTH':
 			return state[Y] < 5 ? state[Y]-- : state[Y];
@@ -76,4 +80,4 @@ const move = state => {
 	}
 };
 
-module.exports = functions = { matchPlace, move };
+module.exports = functions = { matchPlace, move, report };

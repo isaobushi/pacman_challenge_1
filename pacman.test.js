@@ -1,10 +1,10 @@
 const functions = require('./pacman');
 
-test('expect to fail if returns null', () => {
+test('expect to return null', () => {
 	expect(functions.matchPlace('PLACE 1,2,SOUTH')).not.toBe(null);
 });
 
-test('expect to fail if string does not match', () => {
+test('expect to return exact length 3', () => {
 	expect(functions.matchPlace('PLACE 1,2,SOUTH')).toHaveLength(3);
 });
 
@@ -30,4 +30,12 @@ test('expect to raise error if state.facing is wrong', () => {
 	const FACING = 2;
 	let state = [2, 2, 'WRONG'];
 	expect(functions.move(state)).toEqual(expect.stringContaining('message error'));
+});
+
+test('expect to log state', () => {
+	const X = 0;
+	const Y = 1;
+	const FACING = 2;
+	let state = [2, 2, 'NORTH'];
+	expect(functions.report(state)).toEqual(expect.stringContaining('(2,2) facing NORTH \n'));
 });
