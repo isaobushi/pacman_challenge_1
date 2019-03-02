@@ -3,6 +3,10 @@ const rl = require('readline').createInterface({
 	output: process.stdout,
 });
 
+const X = 0;
+const Y = 1;
+const FACING = 2;
+
 let state = null;
 const mainLoop = input => {
 	let newState = getInput(input, state);
@@ -31,28 +35,45 @@ const matchPlace = input => {
 	return null;
 };
 
-const getInput = (input, state) => {
-	const matched = matchPlace(input);
-	if (matched) {
-		return matched;
-	}
+// const getInput = (input, state) => {
+// 	const matched = matchPlace(input);
+// 	if (matched) {
+// 		return matched;
+// 	}
 
-	if (state === null) {
-		return 'message error';
-	}
+// 	if (state === null) {
+// 		return 'message error';
+// 	}
 
-	switch (input) {
-		case 'MOVE':
-			return 'function move';
-		case 'REPORT':
-			return 'function report';
-		case 'LEFT':
-			return 'function left';
-		case 'RIGHT':
-			return 'function right';
+// 	switch (input) {
+// 		case 'MOVE':
+// 			return move(state);
+// 		case 'REPORT':
+// 			return 'function report';
+// 		case 'LEFT':
+// 			return 'function left';
+// 		case 'RIGHT':
+// 			return 'function right';
+// 		default:
+// 			return 'message error';
+// 	}
+// };
+
+const move = state => {
+	switch (state[FACING]) {
+		case 'NORTH':
+			console.log('in south');
+			return state[Y] < 5 ? state[Y]++ : state[Y];
+		case 'SOUTH':
+			return state[Y] < 5 ? state[Y]-- : state[Y];
+		case 'EAST':
+			state[X] < 5 ? state[X]++ : state[X];
+			return state[X];
+		case 'WEST':
+			return state[X] < 5 ? state[X]-- : state[X];
 		default:
 			return 'message error';
 	}
 };
 
-module.exports = { matchPlace: matchPlace, mainLoop: mainLoop, getInput: getInput };
+module.exports = functions = { matchPlace, move };
