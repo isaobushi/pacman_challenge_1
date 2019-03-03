@@ -11,10 +11,14 @@ const messageInstruction = `\n---Enter: \n MOVE to make pacman advance \n LEFT a
 
 const messageValuesError = '\nwrong values entered, try again or enter EXIT to leave\n';
 //----------------------------------------------------------------
+
+// const to replace state array index
 const X = 0;
 const Y = 1;
 const FACING = 2;
 //----------------------------------------------------------------
+
+// main CLI loop
 
 let state = null;
 const mainLoop = input => {
@@ -33,6 +37,7 @@ const mainLoop = input => {
 
 rl.question(messageStart, mainLoop);
 
+// it matches the input with the regex to validate the string, if true set a newState array
 const matchPlace = input => {
 	let regex = /PLACE ([0-9]),([0-9]),(NORTH|EAST|SOUTH|WEST)/i;
 	let match = input.match(regex);
@@ -44,6 +49,7 @@ const matchPlace = input => {
 	return null;
 };
 
+// it channels the user's input, giving back errors if not valid inputs are sent
 const getInput = (input, state) => {
 	const matched = matchPlace(input);
 	if (matched) {
@@ -71,6 +77,7 @@ const report = state => {
 	return `(${state[X]},${state[Y]}) facing ${state[FACING]} \n`;
 };
 
+//it moves pacman of one unit in towards the state facing direction, it will not go beyond 5 and below 0, but will not raise an error if it tempts to.
 const move = state => {
 	switch (state[FACING]) {
 		case 'NORTH':
@@ -92,7 +99,7 @@ const move = state => {
 	return state;
 };
 
-// rotate pacman facing rotation 90 deg left
+// rotate pacman facing rotation 90 deg left, without changing position
 const left = state => {
 	assoc = {
 		NORTH: 'WEST',
@@ -107,7 +114,7 @@ const left = state => {
 	return state;
 };
 
-// rotate pacman facing rotation 90 deg right
+// rotate pacman facing rotation 90 deg right, without changing position
 const right = state => {
 	assoc = {
 		NORTH: 'EAST',
